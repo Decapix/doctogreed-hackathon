@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from fpdf import FPDF
 import json
+import requests
 
 # ===============================
 # Fonctions existantes
@@ -37,6 +38,9 @@ def generate_pdf(patient_name, diagnosis):
     pdf.output(pdf_output)
     return pdf_output
 
+# ===============================
+# Coefficients pour le calcul des scores
+# ===============================
 
 def sum_domain_scores(response_dict):
 
@@ -105,43 +109,21 @@ def calculate_total_score(patient_dict):
     overall_summary_score = sum(transformed_scores.values()) / len(transformed_scores)
     return {"patient_name": patient_name, "overall_summary_score": overall_summary_score}
 
-data_patient1 = {
-    "patient_name": "Monty Python",
-    "patient_gender": 1,
-    "responses": {
-        "1": [1,1,5,"Extremely"],
-        "2": [2,1,5,"Quite a bit"],
-        "3": [1,1,5,"Moderately"],
-        "4": [4,1,5,"Less than once a week"],
-        "5": [1,1,7,"1-2 times per week"],
-        "6": [6,1,5,"Less than once week"],
-        "7": [5,1,5,"Never over the past 2 weeks"],
-        "8": [1,1,5,"Slightly"],
-        "9": [1,1,5,"Not at all satisfied"],
-        "10": [3,1,5,"Moderately"],
-        "11": [1,1,5,"Slightly"],
-        "12": [2,1,5,"Quite a bit"]
-    }
-}
 
-data_patient2 = {
-    "patient_name":"Mindy Moon",
-    "patient_gender": 0,
-    "responses": {
-        "1": [1,1,5,"Extremely"],
-        "2": [2,1,5,"Quite a bit"],
-        "3": [1,1,5,"Moderately"],
-        "4": [1,1,5,"Every morning"],
-        "5": [1,1,7,"1-2 times per week"],
-        "6": [6,1,5,"Less than once week"],
-        "7": [5,1,5,"Never over the past 2 weeks"],
-        "8": [1,1,5,"Slightly"],
-        "9": [1,1,5,"Not at all satisfied"],
-        "10": [5,1,5,"Not at all"],
-        "11": [1,1,5,"Slightly"],
-        "12": [2,1,5,"Quite a bit"]
-    }
-}
+# ===============================
+# Simulation des outputs JSON du modèle
+# ===============================
+
+FASTAPI_URL = "http://backend:8000/get_diagnostique/"
+
+# Fonction pour récupérer les diagnostics depuis l'API
+def get_diagnostics_from_api():
+    response = requests.get(FASTAPI_URL)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error("Erreur lors de la récupération des diagnostics")
+        return []
 
 def create_score_dictionary_list(list, new_dict):
     list.append(new_dict)
@@ -228,7 +210,8 @@ def main():
     with tabs[0]:
         st.header("Liste des patients classés par priorité")
         # where is patient data ???
-        create_score_dictionary_list(list_patient_score_dicts, calculate_total_score(data_patient1))
+        model_outputs = get_diagnostics_from_api()
+        create_score_dictionary_list(list_patient_score_dicts, calculate_total_score(model_outputs))
         sorted_patients = rank_patients(list_patient_score_dicts)
         for name, score in sorted_patients:
             diagnosis = f"Compte-rendu médical de {name}.\nÉtat du patient analysé avec un score de {score:.2f}/10."
@@ -259,7 +242,7 @@ def main():
     # Onglet 2 : Rédiger un diagnostic
     with tabs[1]:
         st.header("📝 Rédiger un diagnostic")
-        patient_name = st.selectbox("Sélectionnez un patient", patients_list)
+        patient_name = st.selectbox("Sélectionnez un patient", [dictionary["patient_name"] for dictionary in sorted_patients])
         diagnosis_text = st.text_area("Écrivez le diagnostic ici")
 
         if st.button("📄 Générer et Envoyer PDF"):
@@ -283,11 +266,11 @@ def main():
                 st.markdown(
                     f"""
                     <div style="
-                        background-color: #0066FF; 
-                        color: white; 
-                        padding: 10px; 
-                        margin: 6px 0; 
-                        border-radius: 10px; 
+                        background-color: #0066FF;
+                        color: white;
+                        padding: 10px;
+                        margin: 6px 0;
+                        border-radius: 10px;
                         text-align: left;
                         font-size: 15px;
                     ">
@@ -299,6 +282,7 @@ def main():
                     unsafe_allow_html=True
                 )
                 break
+
 
 if __name__ == "__main__":
     main()
