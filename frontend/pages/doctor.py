@@ -77,7 +77,7 @@ def calculate_total_score(patient_dict):
     social_limitations_sum (int): Sum of scores for Social Limitations items.
 
     Returns:
-    float: The overall summary score.
+    dict: patient name and overall summary score
     """
     physical_limitations_sum, symptom_frequency_sum, symptom_burden_sum, quality_of_life_sum, social_limitations_sum = sum_domain_scores(patient_dict["response"])
     min_max_values = {
