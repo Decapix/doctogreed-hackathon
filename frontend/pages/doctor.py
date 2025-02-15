@@ -8,14 +8,6 @@ import requests
 # ===============================
 # Fonctions existantes
 # ===============================
-def generate_priority_list():
-    """Génération de données fictives pour les scores des patients."""
-    np.random.seed(42)
-    patients = ["Alice", "Bob", "Charlie", "David", "Emma"]
-    scores = np.random.uniform(0, 10, len(patients))
-    df = pd.DataFrame({"Nom": patients, "Score": scores})
-    df = df.sort_values(by="Score", ascending=False)
-    return df
 
 def color_code(score):
     """Retourne la couleur en fonction du score."""
