@@ -11,7 +11,7 @@ def askQuestion(question, language, gender):
     response = client.chat.completions.create(
         model="mistral-nemo-instruct-2407",
         messages=[
-            { "role": "system", "content": "You are a useful AI assistant. You will ask me back the question I am giving it to you." + "Ask it in " + language + ". You are talking to a " + gender },
+            { "role": "system", "content": "You are an AI assistant. You will ask me back the question I am giving to you." + "Ask it in " + language + ". You are talking to a " + gender +", keep it medical and neutral."},
             { "role": "user", "content": question },
         ],
         max_tokens=512,

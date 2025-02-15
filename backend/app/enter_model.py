@@ -22,7 +22,7 @@ class Question(BaseModel):
     id: int
     text: str
     response_type: Literal["boolean", "scale"]  # Type de réponse attendu
-    range: Optional[List[int]] = None  # Intervalle pour les réponses de type "scale"
+    range: Optional[Dict[int, str]] = None  # Dictionnaire pour les réponses de type "scale"
 
 class PatientCreateRequest(BaseModel):
     nom: str
@@ -30,15 +30,15 @@ class PatientCreateRequest(BaseModel):
 
 class DiagnosticData(BaseModel):
     patient_name: str = Field(..., example="Felou")
-    patient_gender: str = Field(..., example="Homme")
-    responses: Dict[str, str] = Field(..., example={"1": "Vrai", "2": "2", "3": "4"})
+    patient_gender: int = Field(..., example=1)
+    responses: Dict[int, str] = Field(..., example={1: "coucou", 2:"salam", 3:"jemappellebizarre", 4:"jaiunprobleme", 5:"jeprendsdutemps"})
 
 
 class DiagnosticResponse(BaseModel):
     id: int
-    genre: str
+    genre: int
     contenu: Dict[str, str]
-    questions: Dict[str, str]
+    questions: Dict[int, str]
     patient_name: str
 
     class Config:
