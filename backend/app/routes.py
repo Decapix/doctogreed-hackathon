@@ -7,6 +7,7 @@ from enter_model import *
 from tortoise.query_utils import Prefetch
 from tortoise.exceptions import DoesNotExist
 from ds import take_question
+from diago import interview_summup
 
 router = APIRouter()
 
@@ -36,16 +37,36 @@ async def get_diagnostic_questions():
 
 
 
-@router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK) # le frontend me renvoie les reponse et on les store
+@router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK)
 async def create_diagnostic(data: DiagnosticData):
+    log.error(f"Received diagnostic data: {data}")
     try:
         patient = await Patient.get(nom=data.patient_name)
     except DoesNotExist:
         raise HTTPException(status_code=404, detail="Patient not found")
 
+    # Transformation des réponses
+    responses = {}
+    for key, value in data.responses.items():
+        # Split the string into a list of values
+        response_values = value.split(", ")
+        # Convert the first three values to integers
+        response_values[:3] = [int(v) for v in response_values[:3]]
+        # Add the response to the responses dictionary
+        responses[int(key)] = response_values
+
+    # Création du dictionnaire file
+    file = {
+        "patient_name": data.patient_name,
+        "patient_gender": "male" if data.patient_gender == 1 else "female",
+        "responses": responses
+    }
+
+    # Appel de la fonction interview_summup avec les bonnes entrées
+    res = interview_summup(3.24, file)
 
     diagnostic = await Diagnostic.create(
-        contenu={"responses": data.responses},
+        contenu={"responses": res},
         questions=questions,
         patient=patient,
         genre=data.patient_gender
@@ -57,13 +78,14 @@ async def create_diagnostic(data: DiagnosticData):
 @router.get("/get_diagnostique/", response_model=List[DiagnosticResponse]) # le frontend docteur me demande le resultat du diagnostic
 async def get_diagnostics():
     # Using Prefetch to optimize the database access and get the related patient name
-    diagnostics = await Diagnostic.all().prefetch_related(Prefetch("patient", queryset=Patient.all().only("nom")))
+    diagnostics = await Diagnostic.all().prefetch_related(
+        Prefetch("patient", queryset=Patient.all().only("id", "nom"))
+    )
 
     response = []
     for diagnostic in diagnostics:
         # Building the response ensuring to include only the patient's name
         response.append({
-            "id": diagnostic.id,
             "genre": diagnostic.genre,
             "contenu": diagnostic.contenu,
             "questions": diagnostic.questions,

@@ -2,6 +2,7 @@ from tortoise import Tortoise, fields, models
 
 
 class Patient(models.Model):
+    id = fields.IntField(pk=True)
     nom = fields.CharField(max_length=100)
     diagnostics = fields.ReverseRelation["Diagnostic"]
 

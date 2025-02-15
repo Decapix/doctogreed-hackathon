@@ -1,0 +1,27 @@
+{
+    "patient_name": "fourmis",
+    "patient_gender": 1,
+    "responses": {
+        "1": [
+            1,
+            null,
+            null,
+            null,
+            "Avez-vous des douleurs thoraciques ?"
+        ],
+        "2": [
+            2,
+            1,
+            5,
+            "Un peu",
+            "Sur une \u00e9chelle de 1 \u00e0 5, comment \u00e9valueriez-vous votre niveau de douleur ?"
+        ],
+        "3": [
+            1,
+            1,
+            5,
+            "Pas satisfait",
+            "\u00c0 quel point \u00eates-vous satisfait de votre traitement actuel ?"
+        ]
+    }
+}
