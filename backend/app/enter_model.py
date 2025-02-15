@@ -4,18 +4,18 @@ from pydantic import BaseModel, Field
 
 # Liste de questions (Kansas City Cardiomyopathy Questionnaire (KCCQ-12))
 questions = [
-    {"id": 1, "text": "How much you are limited by shortness of breath or fatigue in your ability to shower/bathe?", "response_type": "scale", "range": [1, 5]},
-    {"id": 2, "text": "How much you are limited by shortness of breath or fatigue in your ability to walk 1 block on level ground?", "response_type": "scale", "range": [1, 5]},
-    {"id": 3, "text": "How much you are limited by shortness of breath or fatigue in your ability of hurrying or jogging?", "response_type": "scale", "range": [1, 5]},
-    {"id": 4, "text": "Over the past 2 weeks, how many times did you have swelling in your feet, ankles or legs when you woke up in the morning?", "response_type": "scale", "range": [0, 5]},
-    {"id": 5, "text": "Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?", "response_type": "scale", "range": [0, 5]},
-    {"id": 6, "text": "Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?", "response_type": "scale", "range": [0, 5]},
-    {"id": 7, "text": "Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?", "response_type": "scale", "range": [0, 5]},
-    {"id": 8, "text": "Over the past 2 weeks, how much has your heart failure limited your enjoyment of life?", "response_type": "scale", "range": [0, 5]},
-    {"id": 9, "text": "If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel about this?", "response_type": "scale", "range": [0, 5]},
-    {"id": 10, "text": "How do your symptoms limit your hobbies and recreational activities?", "response_type": "scale", "range": [0, 5]},
-    {"id": 11, "text": "How do your symptoms limit your ability to work or do household chores?", "response_type": "scale", "range": [0, 5]},
-    {"id": 12, "text": "How do your symptoms limit your ability to visit your family or friends?", "response_type": "scale", "range": [0, 5]},
+    {"id": 1, "text": "How much you are limited by shortness of breath or fatigue in your ability to shower/bathe?", "response_type": "scale", "range": {1:"Extremely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 2, "text": "How much you are limited by shortness of breath or fatigue in your ability to walk 1 block on level ground?", "response_type": "scale", "range": {1:"Extremely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 3, "text": "How much you are limited by shortness of breath or fatigue in your ability of hurrying or jogging?", "response_type": "scale", "range": {1:"Extremely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 4, "text": "Over the past 2 weeks, how many times did you have swelling in your feet, ankles or legs when you woke up in the morning?", "response_type": "scale", "range": {1:"Every morning", 2:"3 or more times per week but not every day", 3:"1-2 times per week", 4:"Less than once a week", 5:"Never over the past 2 weeks"}},
+    {"id": 5, "text": "Over the past 2 weeks, on average, how many times has fatigue limited your ability to do what you wanted?", "response_type": "scale", "range": {1:"All of the time", 2:"Several times per day", 3:"At least once a day", 4:"3 or more times per week but not every day", 5:"1-2 times per week", 6:"1-2 times per week", 7:"Never over the past 2 weeks"}},
+    {"id": 6, "text": "Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?", "response_type": "scale", "range": {1:"Every morning", 2:"3 or more times per week but not every day", 3:"1-2 times per week", 4:"Less than once a week", 5:"Never over the past 2 weeks"}},
+    {"id": 7, "text": "Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?", "response_type": "scale", "range": {1:"Every night", 2: "3 or more times per week but not every day", 3:"1-2 times per week", 4: "Less than once a week", 5:"Never over the past 2 weeks"}},
+    {"id": 8, "text": "Over the past 2 weeks, how much have your symptoms limited your enjoyment of life?", "response_type": "scale", "range": {1:"Extremely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 9, "text": "If you had to spend the rest of your life with your symptoms the way they are right now, how would you feel about this?", "response_type": "scale", "range": {1:"Not at all satisfied", 2:"Mostly dissatisfied", 3:"Somewhat satisfied", 4:"Mostly satisfied", 5:"Completely satisfied"}},
+    {"id": 10, "text": "How do your symptoms limit your hobbies and recreational activities?", "response_type": "scale", "range": {1:"Severely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 11, "text": "How do your symptoms limit your ability to work or do household chores?", "response_type": "scale", "range": {1:"Severely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
+    {"id": 12, "text": "How do your symptoms limit your ability to visit your family or friends?", "response_type": "scale", "range": {1:"Severely", 2:"Quite a bit", 3:"Moderately", 4:"Slightly", 5:"Not at all"}},
 ]
 # Modèle Pydantic pour une question
 class Question(BaseModel):
