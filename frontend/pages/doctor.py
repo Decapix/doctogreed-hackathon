@@ -146,34 +146,16 @@ def rank_patients(list_of_patient_score_dicts):
 # ===============================
 # Simulation des outputs JSON du modèle
 # ===============================
-model_output_1 = '''
-{
-    "patient_name": "bvcbvc",
-    "patient_gender": 1,
-    "responses": {
-        "1": [1, null, null, null, "Avez-vous des douleurs thoraciques ?"],
-        "2": [1, 1, 5, "Pas du tout", "Sur une \\u00e9chelle de 1 \\u00e0 5, comment \\u00e9valueriez-vous votre niveau de douleur ?"],
-        "3": [1, 1, 5, "Pas satisfait", "À quel point êtes-vous satisfait de votre traitement actuel ?"]
-    }
-}
-'''
+FASTAPI_URL = "http://backend:8000/get_diagnostique/"
 
-model_output_2 = '''
-{
-    "patient_name": "Alice",
-    "patient_gender": 0,
-    "responses": {
-        "1": [0, null, null, null, "Avez-vous des douleurs thoraciques ?"],
-        "2": [1, 1, 5, "Modéré", "Sur une \\u00e9chelle de 1 \\u00e0 5, comment \\u00e9valueriez-vous votre niveau de douleur ?"],
-        "3": [1, 1, 5, "Satisfait", "À quel point êtes-vous satisfait de votre traitement actuel ?"]
-    }
-}
-'''
-
-# Conversion des chaînes JSON en dictionnaires Python
-data1 = json.loads(model_output_1)
-data2 = json.loads(model_output_2)
-model_outputs = [data1, data2]
+# Fonction pour récupérer les diagnostics depuis l'API
+def get_diagnostics_from_api():
+    response = requests.get(FASTAPI_URL)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error("Erreur lors de la récupération des diagnostics")
+        return []
 
 def format_response(response):
     """
@@ -219,13 +201,13 @@ def main():
             st.markdown(
                 f"""
                 <div style="
-                    background-color: {color}; 
-                    color: white; 
-                    padding: 6px; 
-                    margin: 6px 0; 
-                    border-radius: 10px; 
-                    text-align: center; 
-                    font-size: 15px; 
+                    background-color: {color};
+                    color: white;
+                    padding: 6px;
+                    margin: 6px 0;
+                    border-radius: 10px;
+                    text-align: center;
+                    font-size: 15px;
                     font-weight: bold;
                 ">
                     {name} : Score = {score:.2f}
@@ -253,6 +235,8 @@ def main():
 
     # Onglet 3 : Diagnostics du Modèle
     with tabs[2]:
+        # requete request pour avoir les data
+        model_outputs = get_diagnostics_from_api()
         st.header("Diagnostics du Modèle")
         # Menu déroulant pour sélectionner un patient parmi les outputs du modèle
         patient_names = [data["patient_name"] for data in model_outputs]
