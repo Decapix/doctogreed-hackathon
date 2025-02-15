@@ -1,3 +1,4 @@
+
 # DoctoGreed Hackathon – Infrastructure IA pour la cardiologie
 Bienvenue dans ce projet de chatbot IA dédié à la cardiologie, conçu pour aider à la **pré-évaluation** des patients, la **génération de rapports médicaux structurés** et le **suivi post-consultation**. L’architecture globale est orchestrée via **Docker Compose**, et comprend :
 
@@ -25,9 +26,12 @@ Ce projet répond à un besoin concret dans le domaine médical :
 ---  
 
 ## Fonctionnalités principales
-1. **Triage des patients** : Analyse des réponses et priorisation des cas urgents.2. **Consultation préliminaire** : Rassemble les informations importantes (symptômes, historique, traitements en cours).3. **Suivi post-consultation** : Rappels de prise de médicament, vérification de l’évolution, alertes si aggravation.4. **Génération de rapports** : Export PDF, affichage côté médecin, éventuellement notifications pour le patient.
----  
+1. **Triage des patients** : Analyse des réponses et priorisation des cas urgents.
+2. **Consultation préliminaire** : Rassemble les informations importantes (symptômes, historique, traitements en cours).
+3. **Suivi post-consultation** : Rappels de prise de médicament, vérification de l’évolution, alertes si aggravation.
+4. **Génération de rapports** : Export PDF, affichage côté médecin, éventuellement notifications pour le patient.
 
+--- 
 ## Structure du projet
 ```  
 decapix-doctogreed-hackathon/  
@@ -67,7 +71,10 @@ decapix-doctogreed-hackathon/
 ## Comment lancer le projet ?
 
 1. **Cloner le dépôt** :  
-   ```bash git clone https://github.com/votre-compte/doctogreed-hackathon.git cd doctogreed-hackathon ```
+   ```bash 
+   git clone https://github.com/<votre-compte>/doctogreed-hackathon.git 
+   cd doctogreed-hackathon 
+   ```
 2. **(Facultatif) Mettre à jour les variables d’environnement** dans `docker-compose.yaml` si nécessaire (ex. `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
 
 3. **Lancer Docker Compose** :  
@@ -96,5 +103,5 @@ Cela va lancer :
 - **Licence** : Ce projet est sous licence libre (à spécifier selon votre besoin : MIT, Apache 2.0, etc.).
 
 Pour plus de détails, référez-vous aux README spécifiques :
-- [backend.md](./backend/backend.md) dans le dossier `backend`.
-- [frontend.md](./frontend/frontend.md) dans le dossier `frontend`.  
+- [BACKEND.md](./backend/BACKEND.md) dans le dossier `backend`.
+- [FRONTEND.md](./frontend/FRONTEND.md) dans le dossier `frontend`.
