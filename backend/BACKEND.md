@@ -10,6 +10,7 @@ Ce dossier contient tout le code relatif au **backend**. L’API est construite 
 4. [Endpoints principaux](#endpoints-principaux)
 5. [Migration de schéma (Tortoise + Aerich)](#migration-de-schéma-tortoise--aerich)
 6. [Variables d’environnement](#variables-denvironnement)
+7. [Contribuer](#contribuer)
 
 ---
 
@@ -149,3 +150,14 @@ Note : Assurez-vous que la variable d’environnement `DATABASE_URL` soit correc
 
 -   `DATABASE_URL` (obligatoire) : ex. `postgres://user:password@db:5432/mydatabase`
 -   Autres variables éventuelles (API Key Scaleway / OpenAI, etc.) dans `ds.py`.
+
+----------
+
+## Contribuer
+
+Les contributions sont bienvenues !
+
+-   N’hésitez pas à ouvrir des **Issues** ou à soumettre des **Pull Requests**.
+-   Pour des modifications majeures, merci de créer une branche dédiée.
+
+Pour plus d’informations, reportez-vous à la documentation globale.
