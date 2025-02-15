@@ -1,3 +1,4 @@
+
 # Backend – FastAPI & Tortoise ORM
 
 Ce dossier contient tout le code relatif au **backend**. L’API est construite avec [FastAPI](https://fastapi.tiangolo.com/), associée à [Tortoise ORM](https://tortoise-orm.readthedocs.io/) pour l’interaction avec PostgreSQL. Les conteneurs et la base de données sont gérés par Docker Compose.
@@ -36,7 +37,7 @@ Pour tester le backend rapidement en local (sans Docker) :
 
 1. **Cloner le repo** et se rendre dans le dossier `backend` :
    ```bash
-   git clone https://github.com/votre-compte/doctogreed-hackathon.git
+   git clone https://github.com/<votre-compte>/doctogreed-hackathon.git
    cd doctogreed-hackathon/backend
 2.  **Créer un environnement virtuel** (optionnel, mais recommandé) :
     

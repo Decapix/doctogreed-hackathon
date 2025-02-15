@@ -75,21 +75,34 @@ async def create_diagnostic(data: DiagnosticData):
     return {"message": "Diagnostic recorded successfully"}
 
 
-@router.get("/get_diagnostique/", response_model=List[DiagnosticResponse]) # le frontend docteur me demande le resultat du diagnostic
+
+class DiagnosticResponse(BaseModel):
+    patient_name: str
+    patient_gender: int
+    responses: dict
+
+@router.get("/get_diagnostique/", response_model=List[DiagnosticResponse])
 async def get_diagnostics():
-    # Using Prefetch to optimize the database access and get the related patient name
     diagnostics = await Diagnostic.all().prefetch_related(
         Prefetch("patient", queryset=Patient.all().only("id", "nom"))
     )
 
     response = []
     for diagnostic in diagnostics:
-        # Building the response ensuring to include only the patient's name
+        responses = {}
+        for question in diagnostic.questions:
+            responses[str(question['id'])] = [
+                1 if question['response_type'] == 'boolean' else 1,  # Assuming 1 for boolean questions
+                None if question['response_type'] == 'boolean' else question.get('range', [1, 5])[0],
+                None if question['response_type'] == 'boolean' else question.get('range', [1, 5])[1],
+                None,  # Placeholder for the response value
+                question['text']
+            ]
+
         response.append({
-            "genre": diagnostic.genre,
-            "contenu": diagnostic.contenu,
-            "questions": diagnostic.questions,
-            "patient_name": diagnostic.patient.nom
+            "patient_name": diagnostic.patient.nom,
+            "patient_gender": diagnostic.genre,
+            "responses": responses
         })
 
     return response
